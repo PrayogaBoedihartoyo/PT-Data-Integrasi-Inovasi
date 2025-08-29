@@ -232,22 +232,18 @@ Lihat folder /docs/
 ## 💡 Frontend Usage (How FE calls it)
 ### Flow
 
-Login → POST /auth/login
+1. Login dengan ```/auth/login``` → jika multi-role, lanjut ```/auth/select-role```. Simpan token (idealnya di memory/HttpOnly cookie).
+2. Panggil ```/auth/me``` untuk verifikasi dan menampilkan nama/role di header.
+3. Panggil ```/menus/tree``` → render sidebar (recursive).
 
-Jika multi-role → tampilkan modal Role Picker → POST /auth/select-role
-Simpan ACCESS_JWT (memory atau HttpOnly cookie).
-Tampilkan nama & role aktif → GET /auth/me
-Build sidebar → GET /menus/tree
+4. Saat masuk halaman admin:
+  - ```/menus``` untuk daftar semua menu.
 
-Halaman Admin:
-Menu Management → GET/POST/PUT/DELETE /menus
-Role Management → GET/POST /roles, GET/PUT /roles/:id/permissions
-User Management → GET/POST /users, PUT /users/:id/roles
+  - ```/roles``` untuk daftar role, /roles/:id/permissions untuk matriks izin (Admin).
 
-Simpan token JWT (Bearer) dari /auth/login
-Hit /auth/profile untuk dapat data user + roles
-Hit /menus/tree untuk dapat nested menu sesuai role
-Menu bisa langsung di-render berdasarkan struktur children
+  - ```/users``` dan ```PUT /users/:id/roles``` untuk kelola user ↔ role.
+
+5. Aksi (create/update/delete) → jika 403, berarti role aktif memang tak punya izin.
 
 ## Reset & Reseed
 ```
