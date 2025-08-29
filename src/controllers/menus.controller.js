@@ -29,8 +29,7 @@ export async function getTree(req, res) {
       roots.push(n);
     }
   }
-
-  // sort children per level (order_no, name)
+  // sortir tiap node
   const sortNodes = nodes => {
     nodes.sort((a,b) => (a.order_no - b.order_no) || a.name.localeCompare(b.name));
     for (const c of nodes) if (c.children?.length) sortNodes(c.children);

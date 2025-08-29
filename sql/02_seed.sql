@@ -9,7 +9,7 @@ INSERT INTO users(id,username,password_hash,full_name,email)
 VALUES (gen_random_uuid(),'admin','$2a$10$w2E7c6fKQw6S3Gk6x8s9mO2g8P0r1r0xKtfH5HkqXb2cI4mhw2nxa','System Admin','admin@example.com')
 ON CONFLICT DO NOTHING;
 
--- Kaitkan admin -> Admin role
+-- Kaitkan admin -> Admin role 
 INSERT INTO user_roles(user_id, role_id)
 SELECT u.id, r.id FROM users u, roles r
 WHERE u.username='admin' AND r.name='Admin'
@@ -25,7 +25,6 @@ WITH sys AS (
   RETURNING id, code
 ) SELECT * FROM sys;
 
--- Pohon menu contoh (sesuai gambar)
 WITH
 m1 AS (INSERT INTO menus(code,name,order_no) VALUES ('menu.1','Menu 1',1) ON CONFLICT DO NOTHING RETURNING id),
 m1_1 AS (INSERT INTO menus(code,name,parent_id,order_no) SELECT 'menu.1.1','Menu 1.1',id,1 FROM m1 ON CONFLICT DO NOTHING RETURNING id),

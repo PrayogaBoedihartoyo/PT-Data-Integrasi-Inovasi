@@ -18,7 +18,7 @@ export async function getPermissions(req, res) {
   const r = await pool.query(
     `SELECT rpm.menu_id, m.code AS menu_code, m.name AS menu_name,
             rpm.can_create, rpm.can_read, rpm.can_update, rpm.can_delete
-     FROM role_menu_permissions rpm
+            FROM role_menu_permissions rpm
      JOIN menus m ON m.id=rpm.menu_id
      WHERE rpm.role_id=$1
      ORDER BY m.code`,
