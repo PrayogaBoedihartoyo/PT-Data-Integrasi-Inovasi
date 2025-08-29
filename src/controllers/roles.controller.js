@@ -35,14 +35,15 @@ export async function setPermissions(req, res) {
     for (const it of items) {
       const m = await client.query('SELECT id FROM menus WHERE code=$1', [it.menu_code]);
       if (m.rowCount === 0) continue;
-      const mid = m.rows[0].id;
-      await client.query(
-        `INSERT INTO role_menu_permissions(role_id, menu_id, can_create, can_read, can_update, can_delete)
-         VALUES ($1,$2,$3,$4,$5,$6)
-         ON CONFLICT (role_id, menu_id)
-         DO UPDATE SET can_create=$3, can_read=$4, can_update=$5, can_delete=$6`,
-        [req.params.id, mid, !!it.can_create, !!it.can_read, !!it.can_update, !!it.can_delete]
-      );
+        const mid = m.rows[0].id;
+
+        await client.query(
+          `INSERT INTO role_menu_permissions(role_id, menu_id, can_create, can_read, can_update, can_delete)
+          VALUES ($1,$2,$3,$4,$5,$6)
+          ON CONFLICT (role_id, menu_id)
+          DO UPDATE SET can_create=$3, can_read=$4, can_update=$5, can_delete=$6`,
+          [req.params.id, mid, !!it.can_create, !!it.can_read, !!it.can_update, !!it.can_delete]
+        );
     }
     await client.query('COMMIT');
     res.json({ updated: items.length });
