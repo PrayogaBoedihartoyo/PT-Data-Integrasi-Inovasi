@@ -252,5 +252,5 @@ docker compose up -d
 ```
 
 ## Lisensi
-LGTM! — bebas digunakan untuk belajar maupun pengembangan internal.
+LGTM!
 
